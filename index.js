@@ -1,32 +1,19 @@
-const getRandomNumber = (from, to) => {
-    from + Math.random() * (to - from);
-}
-const request = url => new Promise(resolve => {
-    const randomDelay = getRandomNumber(1000, 3000);
-    setTimeout(() => {
-        resolve({
-            userData: {
-                name: 'Tom',
-                age: 17,
-            },
-            source: url
-        });
-    }, randomDelay);
-});
+const promiseNumber1 = Promise.resolve(67);
+const promiseNumber2 = Promise.resolve(23);
+const promiseNumber3 = Promise.resolve(8);
 
-const servers = [
-    'http://server.com/us',
-    'http://server.com/eu',
-    'http://server.com/au',
-];
 
-export const getUserASAP = userId => {
-    const userUrls = servers
-        .map(serverUrl => `${serverUrl}/${userId}`);
+const arrayPromise = (...promiseNumber) => Promise.all(promiseNumber);
 
-    const requests = userUrls.map(userUrl => request(userUrl));
 
-    return Promise.race(requests);
-};
+export const resultPromise = arrayPromise(promiseNumber1, promiseNumber2, promiseNumber3);
 
-getUserASAP('user-id-1').then(result => console.log(result));
+resultPromise
+    .then(numbersList => {
+        console.log(numbersList);
+        const sum = numbersList.reduce((acc, num) => acc + num, 0);
+        return sum;
+    })
+    .then(result => {
+        console.log(result); // 98
+    });
