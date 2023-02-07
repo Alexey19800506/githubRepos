@@ -1,19 +1,32 @@
-const promiseNumber1 = Promise.resolve(67);
-const promiseNumber2 = Promise.resolve(23);
-const promiseNumber3 = Promise.resolve(8);
+const userAvatarElem = document.querySelector('.user__avatar');
+const userNameElem = document.querySelector('.user__name');
+const userLocationElem = document.querySelector('.user__location');
 
+const defaultAvatar = 'https://avatars3.githubusercontent.com/u10001';
 
-const arrayPromise = (...promiseNumber) => Promise.all(promiseNumber);
+userAvatarElem.src = defaultAvatar;
 
+const fetchUserData = userName => {
+    return fetch(`https://api.github.com/users/${userName}`)
+        .then(response => response.json());
+}
 
-export const resultPromise = arrayPromise(promiseNumber1, promiseNumber2, promiseNumber3);
+const renderUserData = userData => {
+    const { avatar_url, name, location } = userData;
+    userAvatarElem.src = avatar_url;
+    userNameElem.textContent = name;
+    userLocationElem.textContent = location ?
+        `from ${location}` :
+        '';
+};
 
-resultPromise
-    .then(numbersList => {
-        console.log(numbersList);
-        const sum = numbersList.reduce((acc, num) => acc + num, 0);
-        return sum;
-    })
-    .then(result => {
-        console.log(result); // 98
-    });
+const showUserBthElem = document.querySelector('.name-form__btn');
+const userNameInputElem = document.querySelector('.name-form__input');
+
+const onSearchUser = () => {
+    const userName = userNameInputElem.value;
+    fetchUserData(userName)
+        .then(userData => renderUserData(userData));
+};
+
+showUserBthElem.addEventListener('click', onSearchUser);
