@@ -1,56 +1,92 @@
-.page {
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    flex-direction: column;
+.title {
+  font-size: 24px;
+  text-transform: uppercase;
+  text-align: center;
 }
 
-.user {
-    display: flex;
-    flex-direction: column;
-    margin: 50px;
-    align-items: center;
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 32px;
+  background-color: coral;
+  border-radius: 8px;
+  padding: 8px;
+  max-width: 600px;
+  margin: auto;
 }
 
-.user__info {
-    text-align: center;
-    font-size: 24px;
-    margin: 32px;
+.list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  margin: auto;
+  width: 100%;
+}
+.list__item {
+  margin-bottom: 8px;
 }
 
-.user__avatar {
-    width: 320px;
-    height: 320px;
-    border-radius: 50%;
+.list-item {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border-radius: 8px;
+  background-color: wheat;
+  padding: 8px;
 }
-
-.user__name {
-    font-weight: 700;
+.list-item_done {
+  opacity: 0.7;
 }
-
-.user__location {
-    opacity: 0.5;
+.list-item_done .list-item__text {
+  text-decoration: line-through;
 }
-
-.name-form {
-    margin: 0 auto;
+.list-item__checkbox {
+  margin-right: 8px;
 }
-
-.name-form__input {
-    height: 32px;
-    border: 3px solid #ccc;
-    border-radius: 8px;
-    flex: 1;
-    outline: none;
+.list-item:last-child {
+  margin-bottom: 0;
+}
+.list-item__delete-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  margin-left: auto;
+  text-decoration: none;
+  padding: 0;
+  transform: rotate(45deg);
+  font-size: 18px;
+  line-height: 24px;
+  text-align: center;
+  opacity: 0.7;
+}
+.list-item__delete-btn::before {
+  content: "+";
 }
 
 .btn {
-    height: 40px;
-    min-width: 64px;
-    border: 3px solid #ccc;
-    outline: none;
-    cursor: pointer;
-    border-radius: 8px;
-    margin-left: 16px;
+  height: 32px;
+  min-width: 64px;
+  border: 3px solid #ccc;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-left: 16px;
 }
+
+.actions {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.task-input {
+  height: 32px;
+  border: 3px solid #ccc;
+  border-radius: 8px;
+  flex: 1;
+}
+
+/*# sourceMappingURL=styles.css.map */
