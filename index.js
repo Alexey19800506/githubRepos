@@ -1,51 +1,37 @@
-const baseUrl = 'https://63f611d99daf59d1ad81329e.mockapi.io/api/v1/user';
+import { fetchUserData, fetchRepositories } from '/gateways.js';
+import { renderUserData } from '/user.js';
+import { renderRepos, cleanReposList } from '/repos.js';
+import { showSpinner, hideSpinner } from '/spinner.js';
 
-const buttonElem = document.querySelector('.submit-button');
-//const inputForm = document.forms["login-form"];
-const formElem = document.querySelector('.login-form');
+const defaultUser = {
+    avatar_url: 'https://avatars3.githubusercontent.com/u10001',
+    name: '',
+    location: '',
+};
 
+renderUserData(defaultUser);
 
+const showUserBthElem = document.querySelector('.name-form__btn');
+const userNameInputElem = document.querySelector('.name-form__input');
 
+const onSearchUser = () => {
+    showSpinner();
+    cleanReposList();
+    const userName = userNameInputElem.value;
+    fetchUserData(userName)
+        .then(userData => {
+            renderUserData(userData);
+            return userData.repos_url;
+        })
+        .then(url => fetchRepositories(url))
+        .then(reposList => {
+            renderRepos(reposList);
+            hideSpinner();
+        })
+        .catch(err => {
+            hideSpinner();
+            alert(err.message);
+        });
+};
 
-//console.log(buttonElem.reportValidity());
-
-function getUsersList() {
-    return fetch(baseUrl)
-        .then(response => response.json())
-        .then(result => alert(JSON.stringify(result)));
-}
-
-function createUser(formData) {
-    return fetch(baseUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-        },
-        body: JSON.stringify(formData),
-    });
-}
-
-const onFormValidatity = () => {
-
-    let isvalidate = formElem.reportValidity();
-    if (isvalidate) {
-        buttonElem.resetAttribute('disabled');
-    }
-}
-
-formElem.addEventListener('click', onFormValidatity);
-
-const onFormSubmit = event => {
-    event.preventDefault();
-
-    const formData = [...new FormData(formElem)].reduce((acc, [field, value]) => ({...acc, [field]: value }), {});
-
-    createUser(formData);
-
-    getUsersList();
-}
-
-formElem.reset();
-buttonElem.setAttribute('disabled', false);
-
-formElem.addEventListener('submit', onFormSubmit);
+showUserBthElem.addEventListener('click', onSearchUser);
