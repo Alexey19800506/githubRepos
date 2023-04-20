@@ -7,6 +7,7 @@ export const fetchUserData = USERNAME => {
             throw new Error('Failed to load data');
         });
 }
+
 export const fetchRepositories = url =>
     fetch(url)
     .then(response => {
